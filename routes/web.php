@@ -1,27 +1,18 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'appName' => 'JobLens',
+        'applications' => [
+            ['id' => 1, 'company' => 'Stripe',    'role' => 'Backend Engineer',    'status' => 'Interview', 'date' => 'Apr 10'],
+            ['id' => 2, 'company' => 'Notion',    'role' => 'Full Stack Developer', 'status' => 'Applied',   'date' => 'Apr 12'],
+            ['id' => 3, 'company' => 'Vercel',    'role' => 'Laravel Developer',   'status' => 'Rejected',  'date' => 'Apr 14'],
+            ['id' => 4, 'company' => 'Shopify',   'role' => 'Vue.js Developer',    'status' => 'Offer',     'date' => 'Apr 15'],
+            ['id' => 5, 'company' => 'Basecamp',  'role' => 'Software Engineer',   'status' => 'Applied',   'date' => 'Apr 17'],
+        ],
     ]);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';

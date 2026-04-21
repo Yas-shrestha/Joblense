@@ -20,40 +20,10 @@
 
         <!-- Right: badge + date + delete -->
         <div style="text-align: right">
-            <!-- DISPLAY MODE: show the badge -->
-            <span
-                v-if="!editing"
-                @click="startEditing"
-                style="cursor: pointer"
-                title="Click to change status"
-            >
-                <StatusBadge :status="job.status" />
-            </span>
-
-            <!-- EDIT MODE: show a dropdown -->
-            <select
-                v-else
-                v-model="newStatus"
-                @change="saveStatus"
-                @blur="cancelEditing"
-                style="
-                    padding: 4px 8px;
-                    border-radius: 6px;
-                    border: 1px solid #ddd;
-                    font-size: 13px;
-                    cursor: pointer;
-                "
-            >
-                <option value="Applied">Applied</option>
-                <option value="Interview">Interview</option>
-                <option value="Offer">Offer</option>
-                <option value="Rejected">Rejected</option>
-            </select>
-
+            <StatusBadge :status="job.status" />
             <p style="font-size: 12px; color: #999; margin: 6px 0 4px">
                 {{ job.date }}
             </p>
-
             <button
                 @click="$emit('delete', job.id)"
                 style="
@@ -72,38 +42,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { router } from "@inertiajs/vue3";
 import StatusBadge from "./StatusBadge.vue";
 
-const props = defineProps({
+defineProps({
     job: Object,
 });
 
 defineEmits(["delete"]);
-
-const editing = ref(false);
-
-const newStatus = ref(props.job.status);
-
-function startEditing() {
-    editing.value = true;
-}
-function cancelEditing() {
-    editing.value = false;
-    newStatus.value = props.job.status; // reset to original if cancelled
-}
-function saveStatus() {
-    router.patch(
-        `/applications/${props.job.id}`,
-        {
-            status: newStatus.value,
-        },
-        {
-            onSuccess: () => {
-                editing.value = false;
-            },
-        },
-    );
-}
 </script>

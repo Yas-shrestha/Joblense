@@ -11,28 +11,7 @@
         <p style="color: #666; margin-bottom: 24px">
             {{ localApps.length }} applications tracked
         </p>
-        <div
-            style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 4px;
-            "
-        >
-            <h1 style="font-size: 24px; margin: 0">JobLens</h1>
-            <button
-                @click="logout"
-                style="
-                    font-size: 13px;
-                    color: #999;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                "
-            >
-                Logout
-            </button>
-        </div>
+
         <!-- Form -->
         <div
             style="
@@ -200,8 +179,5 @@ function removeApplication(id) {
 
     // splice removes 1 item at that position
     if (index !== -1) localApps.splice(index, 1);
-}
-function logout() {
-    router.post("/logout");
 }
 </script>
